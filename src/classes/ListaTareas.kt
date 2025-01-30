@@ -1,40 +1,79 @@
 package classes
 
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+
 class ListaTareas {
     companion object {
         var IDENTIFICADOR_TAREA = 0
+        const val TAREA_PENDIENTE = "Pendiente"
+        const val TAREA_REALIZADA = "Realizada"
     }
 
-    private val subtareas: MutableList<Tarea> = mutableListOf()
-    // TODO
-    // Métodos:
-    // Cambiar el estado de una tarea.
-    // Mostrar lista de tareas (todas las tareas).
-    // Mostrar lista de tareas pendientes.
-    // Mostrar lista de tareas ya realizadas.
+    private val tareasAgregadas: MutableList<Tarea> = mutableListOf()
 
-    fun agregarTarea(t: Tarea) {
-        println("Introduce la descripción de la tarea >> ")
-        t.descripcion = readln()
-        t.identificador = IDENTIFICADOR_TAREA
+    /**
+     *
+     */
+    fun agregarTarea(desc: String) {
+        val fechaHoraActual: LocalDateTime = LocalDateTime.now()
+        val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")
+        val fechaFormateada: String = fechaHoraActual.format(formatter)
+        tareasAgregadas.add(Tarea(IDENTIFICADOR_TAREA, desc, TAREA_PENDIENTE, fechaFormateada))
         IDENTIFICADOR_TAREA ++
-        t.estado = "Pendiente"
-        subtareas.add(t)
     }
 
-    fun mostrarTareas() {
-        for (tarea in subtareas) {
-            println(tarea)
+    /**
+     *
+     */
+    fun cambiarEstadoTarea(id: Int): Boolean {
+        for (t in tareasAgregadas){
+            if (t.identificador == id) {
+                if(t.estado == TAREA_REALIZADA) {
+                    t.estado = TAREA_PENDIENTE
+                    return true
+                } else {
+                    t.estado = TAREA_REALIZADA
+                    return true
+                }
+            }
+        }
+        println("La tarea no existe.")
+        return false
+    }
+
+
+    /**
+     *
+     */
+    fun mostrarTareasPendientes() {
+        for (t in tareasAgregadas) {
+            if (t.estado == TAREA_PENDIENTE)
+                println(t)
         }
     }
 
+    /**
+     *
+     */
+    fun mostrarTareasRealizadas() {
+        for (t in tareasAgregadas) {
+            if (t.estado == TAREA_REALIZADA)
+                println(t)
+        }
+    }
+
+    /**
+     *
+     */
     fun eliminarTarea(id: Int): Boolean {
-        for (t in subtareas){
+        for (t in tareasAgregadas){
             if (t.identificador == id) {
-                subtareas.remove(t)
+                tareasAgregadas.remove(t)
                 return true
             }
         }
+        println("La tarea no existe.")
         return false
     }
 }

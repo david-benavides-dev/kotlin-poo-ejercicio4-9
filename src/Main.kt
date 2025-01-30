@@ -1,20 +1,21 @@
-import classes.ListaTareas
-import classes.Tarea
+import classes.*
 
 fun main() {
-    var tareas = ListaTareas()
-    var tareDefault = Tarea(0,"","")
+    val tareas = ListaTareas()
 
     do {
         mostrarMenu()
-        var opcion = pedirOpcion()
+        val opcion = pedirOpcion()
         when (opcion) {
-            1 -> tareas.agregarTarea(Tarea(0,"a","a"))
-            2 -> tareas.eliminarTarea(1)
-            3 -> println("TEST3")
-            4 -> tareas.mostrarTareas()
-            5 -> println("TEST5")
-            6 -> println("TEST6")
+            1 -> {
+                print("Introduce la descripción de la tarea >> ")
+                tareas.agregarTarea(readln())
+            }
+            2 -> tareas.eliminarTarea(readln().toInt())
+            3 -> tareas.cambiarEstadoTarea(readln().toInt())
+            4 -> tareas.mostrarTareasPendientes()
+            5 -> tareas.mostrarTareasRealizadas()
+            6 -> println("Saliendo del programa...")
         }
     } while (opcion != 6)
 }
@@ -40,7 +41,7 @@ fun mostrarMenu() {
  * @return La opción que el usuario ha introducido.
  */
 fun pedirOpcion(): Int {
-    var opcion: Int = 0
+    var opcion = 0
     do {
         try {
             print("Introduce opción >> ")
