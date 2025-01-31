@@ -5,14 +5,32 @@ fun main() {
 
     do {
         mostrarMenu()
+
         val opcion = pedirOpcion()
+
         when (opcion) {
             1 -> {
                 print("Introduce la descripción de la tarea >> ")
                 tareas.agregarTarea(readln())
             }
-            2 -> tareas.eliminarTarea(readln().toInt())
-            3 -> tareas.cambiarEstadoTarea(readln().toInt())
+            2 -> {
+                println("Introduce el ID de la tarea >> ")
+                val idTarea: Int? = readln().toIntOrNull()
+                if (idTarea != null) {
+                    tareas.eliminarTarea(idTarea)
+                } else {
+                    println("ID no válido.")
+                }
+            }
+            3 -> {
+                println("Introduce el ID de la tarea >> ")
+                val idTarea: Int? = readln().toIntOrNull()
+                if (idTarea != null) {
+                    tareas.cambiarEstadoTarea(idTarea)
+                } else {
+                    println("ID no válido.")
+                }
+            }
             4 -> tareas.mostrarTareasPendientes()
             5 -> tareas.mostrarTareasRealizadas()
             6 -> println("Saliendo del programa...")
@@ -21,7 +39,7 @@ fun main() {
 }
 
 /**
- * Muestra un menu por consola.
+ * Muestra el menú del programa al usuario.
  */
 fun mostrarMenu() {
     println("""GESTION DE TAREAS
@@ -41,7 +59,9 @@ fun mostrarMenu() {
  * @return La opción que el usuario ha introducido.
  */
 fun pedirOpcion(): Int {
+
     var opcion = 0
+
     do {
         try {
             print("Introduce opción >> ")
